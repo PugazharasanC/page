@@ -8,36 +8,11 @@ var fixSize = () => {
     numOfPage = Math.ceil(mainObj.length / numOfval);
     mainDriverFunc();
 }
-var mainDriverFunc = () => {
-    var myDiv = document.getElementById('myDiv');
-    if (myDiv != null) {
-        body.removeChild(myDiv);
-    }
-    newDiv = document.createElement('div');
-    newDiv.id = 'myDiv';
-    body.className = 'container';
-    var table = document.createElement('table');
-    var tableHead = document.createElement('thead');
-    table.classList.add('table');
-    var tr = document.createElement('tr');
-    tableHead.className = 'thead-light';
-    var th = document.createElement('th');
-    th.innerHTML = 'Id'
-    tr.appendChild(th);
-    th = document.createElement('th');
-    th.innerHTML = 'Name';
-    tr.appendChild(th);
-    th = document.createElement('th');
-    th.innerHTML = 'Mail ID';
-    tr.appendChild(th);
-    tableHead.appendChild(tr);
-    table.appendChild(tableHead);
+var tableBodyCreation = () => {
     var tableBody = document.createElement('tbody');
     tableBody.classList.add('table');
-    table.classList.add('table-striped');
-    table.classList.add('table-hover');
     for (var itr = 0; itr < numOfval; itr++) {
-        tr = document.createElement('tr');
+        var tr = document.createElement('tr');
         var td = document.createElement('td');
         td.id = 'id' + itr;
         tr.appendChild(td);
@@ -49,8 +24,35 @@ var mainDriverFunc = () => {
         tr.appendChild(td);
         tableBody.appendChild(tr);
     }
-    table.appendChild(tableBody);
-    newDiv.appendChild(table);
+    return tableBody;
+}
+var tableHeadCreation = () => {
+    var tableHead = document.createElement('thead');
+    tableHead.className = 'thead-light';
+    var tr = document.createElement('tr');
+    var th = document.createElement('th');
+    th.innerHTML = 'Id'
+    tr.appendChild(th);
+    th = document.createElement('th');
+    th.innerHTML = 'Name';
+    tr.appendChild(th);
+    th = document.createElement('th');
+    th.innerHTML = 'Mail ID';
+    tr.appendChild(th);
+    tableHead.appendChild(tr);
+    return tableHead;
+}
+var tableCreation = () =>{
+    var table = document.createElement('table');
+    table.classList.add('table');
+    table.classList.add('table-striped');
+    table.classList.add('table-hover');
+    table.appendChild(tableHeadCreation());
+    table.appendChild(tableBodyCreation());
+    return table;
+}
+
+var buttonCreation = () => {
     var anotherDiv = document.createElement('div');
     var button = document.createElement('button');
     button.id = 'prevButton';
@@ -68,7 +70,6 @@ var mainDriverFunc = () => {
         button.innerHTML = itr + 1 + '';
         anotherDiv.appendChild(button);
     }
-    //document.getElementById('1').className = 'active';
     button = document.createElement('button');
     button.id = 'nextButton';
     button.classList.add('btn');
@@ -76,7 +77,18 @@ var mainDriverFunc = () => {
     button.onclick = nextPage;
     button.innerHTML = 'Next';
     anotherDiv.appendChild(button);
-    newDiv.appendChild(anotherDiv);
+    return anotherDiv;
+}
+var mainDriverFunc = () => {
+    var myDiv = document.getElementById('myDiv');
+    if (myDiv != null) {
+        body.removeChild(myDiv);
+    }
+    newDiv = document.createElement('div');
+    newDiv.id = 'myDiv';
+    body.className = 'container';
+    newDiv.appendChild(tableCreation());
+    newDiv.appendChild(buttonCreation());
     body.appendChild(newDiv);
     movePage('1');
 }
